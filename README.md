@@ -1,0 +1,1 @@
+# jezyk_python_projekt
