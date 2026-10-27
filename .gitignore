@@ -1,0 +1,99 @@
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution and packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Testing and coverage
+.pytest_cache/
+.hypothesis/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+nosetests.xml
+*.cover
+*.py.cover
+
+# 
+.ipynb_checkpoints/
+.ipython/
+
+# 
+data/*.csv
+data/**/*.csv
+data/*.parquet
+data/**/*.parquet
+data/*.json
+data/**/*.json
+
+# Logs and temporary files
+*.log
+tempCodeRunnerFile.py
+.DS_Store
+Thumbs.db
+
+# Type checkers and linters
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+.ruff_cache/
+
+# IDE settings
+.vscode/
+.idea/
+.spyderproject
+.spyproject
+.ropeproject
+
+# Documentation builds
+docs/_build/
+/site
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Python package managers
+.pdm-python
+.pdm-build/
+__pypackages__/
+.pixi/
+
