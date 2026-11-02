@@ -2,7 +2,7 @@ import pandas as pd
 import kagglehub
 import os
 
-
+# Krok 1
 class DataLoader:
     def __init__(self, review_limit=500_000, chunk_size=20_000):
         if review_limit <= 0 or chunk_size <= 0:
