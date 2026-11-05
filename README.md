@@ -2,6 +2,12 @@
 
 **Wybrany temat projektu:** Analiza recenzji książek oraz ich rekomendacja.
 
+Imiona oraz Nazwiska:
+- Sylwia Wójs
+- Gabriela Oracz
+- Liliia Nakonechna
+
+
 Miejsce pierwszych pomysłów (bałagan twórczy): https://colab.research.google.com/drive/1x4MpsCJqCmkBeYS00JPCn4BTG3FLKiiM?usp=sharing
 
 Projekt będzie obejmować następujące etapy:
