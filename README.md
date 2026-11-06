@@ -1,5 +1,8 @@
 # jezyk_python_projekt
 
+
+# opis bazy danych - dodać!
+
 **Wybrany temat projektu:** Analiza recenzji książek oraz ich rekomendacja.
 
 Imiona oraz Nazwiska:

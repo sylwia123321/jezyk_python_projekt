@@ -11,8 +11,8 @@ def main():
     except (FileNotFoundError, ValueError, RuntimeError) as e:
         print(f"Wystąpił błąd poczas ładowania danych: {e}")
     print("Przygotowanie danych zakończono pomyślnie")
-    print("Recenzje: ", reviews_df.shape)
-    print("Książki: ", books_df.shape)
+    print("Recenzje (po czyszczeniu): ", reviews_df.shape)
+    print("Książki (po czyszczeniu): ", books_df.shape)
     print(f"Ważone oceny: {calculate_weighted_score_reviews(reviews_df)}")
     #return reviews_df, books_df
 
