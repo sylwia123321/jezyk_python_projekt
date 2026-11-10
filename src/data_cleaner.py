@@ -5,14 +5,14 @@ import spacy
 # - Reviews & books
 
 
-def clean_data(reviews_df, books_df, lemmatize=False):
+def clean_data(reviews_df, books_df, lemmatize=False, nlp=None):
     # Czyszczenie tabeli Reviews
     reviews_df = reviews_df.copy()
     books_df = books_df.copy()
     reviews_df = reviews_df[["Id", "Title", "review/score", "review/text"]].dropna()
     if reviews_df.empty:
         raise ValueError("Brak dostępnych danych recenzji po oczyszczeniu.")
-    reviews_df = preprocess_reviews_text(reviews_df, lemmatize)
+    reviews_df = preprocess_reviews_text(reviews_df, lemmatize, nlp)
 
     # Czyszczenie tabeli Books
     selected_book_columns = ["Title", "authors", "categories", "description"]
@@ -31,7 +31,7 @@ def clean_data(reviews_df, books_df, lemmatize=False):
     return reviews_df, books_df
 
 
-def preprocess_reviews_text(reviews_df, lemmatize=False, nlp=None):
+def preprocess_reviews_text(reviews_df, lemmatize, nlp):
     """Przygotowuje tekst recenzji i opcjonalnie wykonuje lematyzację."""
 
     reviews_df = clean_review_text(reviews_df)
@@ -88,7 +88,7 @@ def lematize_review_text(review_df, nlp):
         raise ValueError("Brak kolumny review/text")
 
     # przetwarzanie partiami
-    processed_reviews = nlp.pipe(review_df["review/text"].tolist(), batch_size=2000)
+    processed_reviews = nlp.pipe(review_df["review/text"], batch_size=2000)
 
     # zamiana słów na formy podstawowe, np. running -> run
     review_df["review/lemma"] = [
