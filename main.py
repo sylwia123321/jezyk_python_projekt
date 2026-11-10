@@ -7,7 +7,9 @@ def main():
     try:
         loader = DataLoader()
         reviews_df, books_df = loader.prepare_data()
-        reviews_df, books_df = clean_data(reviews_df, books_df)
+        reviews_df, books_df = clean_data(
+            reviews_df, books_df, lemmatize=False
+        )  # lemmatize = True działa na razie bardzo wolno. Będę próbować ją zoptymalizować + trzeba będzie sprawdzić, czy wpływa pozytywnie na jakość analizy sentymentu.
         top_books = calculate_weighted_score_reviews(reviews_df)
 
     except (FileNotFoundError, ValueError, RuntimeError, OSError) as e:
