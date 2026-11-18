@@ -18,8 +18,13 @@ def clean_reviews(reviews_df, lemmatize, nlp):
     """Czyści dane recenzji, usuwa brakujące wartości i przygotowuje tekst."""
 
     reviews_df = reviews_df.copy()
+    reviews_df.columns = reviews_df.columns.str.lower()
 
-    reviews_df = reviews_df[["Id", "Title", "review/score", "review/text"]].dropna()
+    reviews_df.rename(
+        columns={"review/text": "review_text", "review/score": "review_score"},
+        inplace=True,
+    )
+    reviews_df = reviews_df[["id", "title", "review_score", "review_text"]].dropna()
     if reviews_df.empty:
         raise ValueError("Brak dostępnych danych recenzji po oczyszczeniu.")
 
@@ -32,8 +37,9 @@ def clean_books(books_df):
     """Czyści dane książek, usuwa brakujące wartości i puste listy."""
 
     books_df = books_df.copy()
+    books_df.columns = books_df.columns.str.lower()
 
-    selected_book_columns = ["Title", "authors", "categories", "description"]
+    selected_book_columns = ["title", "authors", "categories", "description"]
     existing_book_columns = [
         column for column in selected_book_columns if column in books_df.columns
     ]
@@ -56,7 +62,7 @@ def clean_books(books_df):
     )
 
     books_df["title_key"] = (
-        books_df["Title"].astype(str).str.lower()
+        books_df["title"].astype(str).str.lower()
     )  # kolumna do łaczenia danych z reviews
 
     books_df = books_df.reset_index(drop=True)  # spójne indeksy
@@ -91,11 +97,11 @@ def clean_review_text(review_df):
 
     review_df = review_df.copy()
 
-    if "review/text" not in review_df.columns:
-        raise ValueError("Brak kolumny review/text")
+    if "review_text" not in review_df.columns:
+        raise ValueError("Brak kolumny review_text")
 
-    review_df["review/text"] = (
-        review_df["review/text"]
+    review_df["review_text"] = (
+        review_df["review_text"]
         .astype("string")
         .apply(html.unescape)  # zamiana html na zwykłe znaki, np. &amp -> &
         .str.replace(r"<[^>]+>", " ", regex=True)  # usuwanie znaczników html
@@ -110,7 +116,7 @@ def clean_review_text(review_df):
         .str.strip()
     )
 
-    review_df = review_df[review_df["review/text"].ne("")]
+    review_df = review_df[review_df["review_text"].ne("")]
 
     return review_df
 
@@ -121,13 +127,13 @@ def lematize_review_text(review_df, nlp):
     review_df = review_df.copy()
 
     if "review/text" not in review_df.columns:
-        raise ValueError("Brak kolumny review/text")
+        raise ValueError("Brak kolumny review_text")
 
     # przetwarzanie partiami
-    processed_reviews = nlp.pipe(review_df["review/text"], batch_size=2000)
+    processed_reviews = nlp.pipe(review_df["review_text"], batch_size=2000)
 
     # zamiana słów na formy podstawowe, np. running -> run
-    review_df["review/lemma"] = [
+    review_df["review_lemma"] = [
         " ".join(
             token.lemma_
             for token in processed_review
