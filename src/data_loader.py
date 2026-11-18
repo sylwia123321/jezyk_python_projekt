@@ -2,6 +2,7 @@ import pandas as pd
 import kagglehub
 import os
 
+
 # Krok 1
 class DataLoader:
     def __init__(self, review_limit=500_000, chunk_size=20_000):
@@ -77,18 +78,30 @@ class DataLoader:
         books = pd.concat(books_parts, ignore_index=True)
         return books
 
-    def prepare_data(self):
-        """Pobiera, przetwarza i zapisuje dane książek oraz recenzji do plików CSV, a następnie zwraca je jako obiekty DataFrame."""
+    def prepare_data(self, force_download=False):
+        """Przygotowuje dane recenzji i książek, zapisuje je lokalnie i zwraca jako DataFrame."""
 
         print("Rozpoczęto przygotowywanie danych...")
-        reviews_path, books_path = self._download_dataset()
-
-        reviews = self._prepare_reviews(reviews_path)
-        books = self._prepare_books(books_path, reviews)
 
         os.makedirs(self.output_dir, exist_ok=True)
 
-        reviews.to_csv(self.reviews_output, index=False)
-        books.to_csv(self.books_output, index=False)
+        if (
+            os.path.isfile(self.books_output)  # jeśli plik z książkami
+            and os.path.isfile(self.reviews_output)  # i recenzjami juz istnieje
+            and not force_download  # oraz force_download == False -> to czytamy już istniejące dane lokalnie (bez pobierania)
+        ):
+            print("Trwa wczytywanie danych z lokalnych plików CSV...")
+            reviews = pd.read_csv(self.reviews_output)
+            books = pd.read_csv(self.books_output)
+
+        else:
+            print("Trwa pobieranie danych z Kaggle...")
+            reviews_path, books_path = self._download_dataset()
+
+            reviews = self._prepare_reviews(reviews_path)
+            books = self._prepare_books(books_path, reviews)
+
+            reviews.to_csv(self.reviews_output, index=False)
+            books.to_csv(self.books_output, index=False)
 
         return reviews, books
