@@ -21,6 +21,7 @@ def main():
         print("Książki (po czyszczeniu): ", books_df.shape)
         print(books_df.head())
         print(reviews_df.head())
+        print(top_books.head())
 
 
 if __name__ == "__main__":
