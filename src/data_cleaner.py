@@ -6,29 +6,51 @@ import spacy
 
 
 def clean_data(reviews_df, books_df, lemmatize=False, nlp=None):
-    # Czyszczenie tabeli Reviews
+    """Czyści dane recenzji i książek."""
+
+    reviews_df = clean_reviews(reviews_df, lemmatize, nlp)  # Czyszczenie tabeli Reviews
+    books_df = clean_books(books_df)  # Czyszczenie tabeli Books
+
+    return reviews_df, books_df
+
+
+def clean_reviews(reviews_df, lemmatize, nlp):
+    """Czyści dane recenzji, usuwa brakujące wartości i przygotowuje tekst."""
+
     reviews_df = reviews_df.copy()
-    books_df = books_df.copy()
+
     reviews_df = reviews_df[["Id", "Title", "review/score", "review/text"]].dropna()
     if reviews_df.empty:
         raise ValueError("Brak dostępnych danych recenzji po oczyszczeniu.")
+
     reviews_df = preprocess_reviews_text(reviews_df, lemmatize, nlp)
 
-    # Czyszczenie tabeli Books
+    return reviews_df
+
+
+def clean_books(books_df):
+    """Czyści dane książek, usuwa brakujące wartości i puste listy."""
+
+    books_df = books_df.copy()
+
     selected_book_columns = ["Title", "authors", "categories", "description"]
     existing_book_columns = [
         column for column in selected_book_columns if column in books_df.columns
     ]
+
     books_df = books_df[existing_book_columns].dropna()  # wyrzucenie samych NaNów
     for column in ["authors", "categories"]:
         if column in books_df.columns:
             books_df = books_df[
                 ~books_df[column].astype(str).str.strip().isin(["[]", "['']", ""])
             ]  # wyrzucenie pustych list
+
     books_df = books_df.reset_index(drop=True)  # spójne indeksy
+
     if books_df.empty:
         raise ValueError("Brak dostępnych danych książek po oczyszczeniu.")
-    return reviews_df, books_df
+
+    return books_df
 
 
 def preprocess_reviews_text(reviews_df, lemmatize, nlp):
