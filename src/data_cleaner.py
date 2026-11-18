@@ -20,6 +20,7 @@ def clean_reviews(reviews_df, lemmatize, nlp):
     reviews_df = reviews_df.copy()
     reviews_df.columns = reviews_df.columns.str.lower()
 
+    # Pytanie do Gabrieli: czemu zmieniasz nazwy?  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     reviews_df.rename(
         columns={"review/text": "review_text", "review/score": "review_score"},
         inplace=True,
@@ -65,6 +66,10 @@ def clean_books(books_df):
         books_df["title"].astype(str).str.lower()
     )  # kolumna do łaczenia danych z reviews
 
+    #!!!!!!!!!!!!!!!!!!!!!! usuwanie duplikatów, by póżniej nie namieszać w joinie!!!!!!!!!!!!!!
+    books_df = books_df.drop_duplicates(subset="title_key")
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
     books_df = books_df.reset_index(drop=True)  # spójne indeksy
 
     if books_df.empty:
@@ -109,6 +114,7 @@ def clean_review_text(review_df):
             r"https?://\S+|www\.\S+", " ", regex=True
         )  # usuwanie adresów stron internetowych
         .str.lower()
+        # PYTANIE DO DZIEWCZYN: czy nie usunąć jeszcze tu '!' i '?' ?    !!!!!!!!!!!!!!!!!!!!!!!!
         .str.replace(
             r"[^\w\s']", " ", regex=True
         )  # usuwanie znaków specjalnych i interpunkcyjnych (zostają litery, cyfry, spacje i apostrofy)
