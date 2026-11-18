@@ -19,8 +19,8 @@ def main():
         print("Przygotowanie danych zakończono pomyślnie")
         print("Recenzje (po czyszczeniu): ", reviews_df.shape)
         print("Książki (po czyszczeniu): ", books_df.shape)
-        print("\nTOP 10 książek według oceny ważonej:")
-        print(top_books)
+        print(books_df.head())
+        print(reviews_df.head())
 
 
 if __name__ == "__main__":

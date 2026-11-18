@@ -1,6 +1,6 @@
 import html
 import spacy
-
+import ast
 # Krok 2: Czyszczenie danych
 # - Reviews & books
 
@@ -44,6 +44,20 @@ def clean_books(books_df):
             books_df = books_df[
                 ~books_df[column].astype(str).str.strip().isin(["[]", "['']", ""])
             ]  # wyrzucenie pustych list
+
+    books_df["authors"] = books_df["authors"].apply(
+        ast.literal_eval
+    )  # zamiana str na listę pythona
+    books_df["categories"] = books_df["categories"].apply(ast.literal_eval)  # jw
+    books_df["categories"] = books_df[
+        "categories"
+    ].apply(  # zamiana nazw kategorii na małe litery
+        lambda categories: [category.lower().strip() for category in categories]
+    )
+
+    books_df["title_key"] = (
+        books_df["Title"].astype(str).str.lower()
+    )  # kolumna do łaczenia danych z reviews
 
     books_df = books_df.reset_index(drop=True)  # spójne indeksy
 
