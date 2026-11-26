@@ -1,3 +1,5 @@
+# Tu na razie są pomysły tylko
+
 #def sentiment_analysis(text):
 import matplotlib.pyplot as plt
 import re
