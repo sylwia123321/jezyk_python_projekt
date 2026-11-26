@@ -31,6 +31,9 @@ def clean_reviews(reviews_df, lemmatize, nlp):
         raise ValueError("Brak dostępnych danych recenzji po oczyszczeniu.")
 
     reviews_df = preprocess_reviews_text(reviews_df, lemmatize, nlp)
+    #!!!!!!!!!!!!!!!!!!!!!! usuwanie duplikatów, by póżniej nie namieszać w joinie!!!!!!!!!!!!!!
+    reviews_df = reviews_df.drop_duplicates()
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     return reviews_df
 
@@ -47,14 +50,12 @@ def clean_books(books_df):
     ]
 
     books_df = books_df[existing_book_columns].dropna()  # wyrzucenie samych NaNów
-    for column in ["authors", "categories"]:
-        if column in books_df.columns:
-            books_df = books_df[
-                ~books_df[column].astype(str).str.strip().isin(["[]", "['']", ""])
-            ]  # wyrzucenie pustych list
+
+    # TU BYŁY USUNIĘTE LISTY PUSTE, BO PO ANALIZIE DANYCH OKAZAŁ SIĘICH BRAK
+
 
     books_df["authors"] = books_df["authors"].apply(
-        ast.literal_eval
+        ast.lower().literal_eval # TU BYŁA KOREKTA!
     )  # zamiana str na listę pythona
     books_df["categories"] = books_df["categories"].apply(ast.literal_eval)  # jw
     books_df["categories"] = books_df[
@@ -66,6 +67,8 @@ def clean_books(books_df):
     books_df["title_key"] = (
         books_df["title"].astype(str).str.lower()
     )  # kolumna do łaczenia danych z reviews
+
+    
 
     #!!!!!!!!!!!!!!!!!!!!!! usuwanie duplikatów, by póżniej nie namieszać w joinie!!!!!!!!!!!!!!
     books_df = books_df.drop_duplicates(subset="title_key")
