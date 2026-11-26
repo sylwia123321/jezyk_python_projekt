@@ -1,4 +1,4 @@
-# Krok 3: analiza recenzji - do kroku następnego 
+# Krok 4: Srednia recenzji
 def calculate_weighted_score_reviews(reviews_df):
     global_mean = reviews_df["review_score"].mean()
     trust_level = 20
