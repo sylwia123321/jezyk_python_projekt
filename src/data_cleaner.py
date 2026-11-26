@@ -55,7 +55,7 @@ def clean_books(books_df):
 
 
     books_df["authors"] = books_df["authors"].apply(
-        ast.lower().literal_eval # TU BYŁA KOREKTA!
+        ast.lower().literal_eval # TU BYŁA KOREKTA! DODANO LOWER()!!!!
     )  # zamiana str na listę pythona
     books_df["categories"] = books_df["categories"].apply(ast.literal_eval)  # jw
     books_df["categories"] = books_df[
