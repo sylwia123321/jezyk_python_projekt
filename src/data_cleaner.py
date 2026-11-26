@@ -1,6 +1,7 @@
 import html
 import spacy
 import ast
+import re
 # Krok 2: Czyszczenie danych
 # - Reviews & books
 
