@@ -6,6 +6,8 @@ import re
 # - Reviews & books
 
 
+# DODAC FUNKCJE SPRAWDZAJĄCĄ DO JĘZYKA ANGIELSKIEGO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+
 def clean_data(reviews_df, books_df, lemmatize=False, nlp=None):
     """Czyści dane recenzji i książek."""
 
