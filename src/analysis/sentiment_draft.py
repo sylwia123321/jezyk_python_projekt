@@ -52,22 +52,3 @@ display(correlation_to_sentiment)
 
 
 # dodac w data_cleaner????
-
-
-def def_emotki(text):
-    # Lista popularnych pozytywnych i negatywnych emotek
-    positive_emotions = r'[:;=](?:\s*-?)[)\]DP]|:P|:p'
-    negative_emotions = r'[:;=](?:\s*-?)[(\[/{|]t_t'
-    other_emotions = r'[:;=](?:\s*-?)[O/\\]|:O|:/|:\|'
-    text = re.sub(positive_emotions, 'happy_emotka', text)# Zamiana pozytywnych emotek
-    text = re.sub(negative_emotions, 'smutna_emotka', text)  # Zamiana negatywnych emotek
-    text = re.sub(other_emotions, 'emotka_neutralna', text) # Zamiana innych emotek
-    # Normalizacja białych znaków po podstawieniach
-    text = re.sub(r'\s+', ' ', text)
-    return text.strip()
-
-
-def shorten_repetitions(text):
-    # Zastępuje np. "suuuuper" na "super"
-    text = re.sub(r'([a-ząćęłńóśźż])\1{2,}', r'\1', text, flags=re.IGNORECASE)
-    return text.strip()
